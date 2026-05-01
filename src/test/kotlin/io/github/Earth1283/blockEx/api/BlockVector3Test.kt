@@ -19,4 +19,18 @@ class BlockVector3Test {
         val c = a - b
         assertEquals(BlockVector3(4, 3, 2), c)
     }
+
+    @Test
+    fun testScalarMultiplication() {
+        val a = BlockVector3(1, 2, 3)
+
+        // Positive scalar
+        assertEquals(BlockVector3(2, 4, 6), a * 2)
+
+        // Zero scalar
+        assertEquals(BlockVector3(0, 0, 0), a * 0)
+
+        // Negative scalar
+        assertEquals(BlockVector3(-1, -2, -3), a * -1)
+    }
 }
