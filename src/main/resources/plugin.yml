@@ -1,0 +1,9 @@
+name: BlockEx
+version: '${version}'
+
+main: io.github.Earth1283.blockEx.BlockEx
+paperPluginLoader: io.github.Earth1283.blockEx.BlockExLoader
+api-version: '1.21'
+load: STARTUP
+
+authors: [ Earth1283 ]
