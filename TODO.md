@@ -1,7 +1,7 @@
 # BlockEx Implementation Todo
 
 - [x] Task 1: Setup Testing Environment
-- [ ] Task 2: Core Data Types and Vectors
+- [x] Task 2: Core Data Types and Vectors
 - [ ] Task 3: World Abstraction for Testing
 - [ ] Task 4: AST Nodes (State Machine)
 - [ ] Task 5: Compiled Engine
