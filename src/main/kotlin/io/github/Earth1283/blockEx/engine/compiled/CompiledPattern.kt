@@ -25,11 +25,22 @@ class CompiledPattern private constructor(val offsets: Map<BlockVector3, String>
             return CompiledPattern(map)
         }
 
+        private fun mergeMaterial(map: MutableMap<BlockVector3, String>, pos: BlockVector3, newMaterial: String) {
+            val existing = map[pos]
+            if (existing == null || existing == "*") {
+                map[pos] = newMaterial
+            } else if (newMaterial != "*") {
+                if (!existing.equals(newMaterial, ignoreCase = true)) {
+                    throw IllegalStateException("Conflicting materials at $pos: $existing vs $newMaterial")
+                }
+            }
+        }
+
         private fun walk(node: MatcherNode?, currentPos: BlockVector3, map: MutableMap<BlockVector3, String>) {
             if (node == null) return
             when (node) {
                 is StartNode -> {
-                    map[currentPos] = node.expectedMaterial
+                    mergeMaterial(map, currentPos, node.expectedMaterial)
                     walk(node.next, currentPos, map)
                 }
                 is DirectionNode -> {
@@ -40,7 +51,7 @@ class CompiledPattern private constructor(val offsets: Map<BlockVector3, String>
                     var pos = currentPos
                     for (i in 1..dist) {
                         pos += node.direction.vector
-                        map[pos] = node.expectedMaterial
+                        mergeMaterial(map, pos, node.expectedMaterial)
                     }
                     walk(node.next, pos, map)
                 }
