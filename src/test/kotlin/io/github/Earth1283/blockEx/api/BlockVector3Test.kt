@@ -11,4 +11,12 @@ class BlockVector3Test {
         val c = a + b
         assertEquals(BlockVector3(1, 1, 0), c)
     }
+
+    @Test
+    fun testVectorSubtraction() {
+        val a = BlockVector3(5, 5, 5)
+        val b = BlockVector3(1, 2, 3)
+        val c = a - b
+        assertEquals(BlockVector3(4, 3, 2), c)
+    }
 }
