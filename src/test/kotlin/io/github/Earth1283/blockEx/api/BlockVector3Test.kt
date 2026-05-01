@@ -33,4 +33,17 @@ class BlockVector3Test {
         // Negative scalar
         assertEquals(BlockVector3(-1, -2, -3), a * -1)
     }
+
+    @Test
+    fun testVectorAdditionEdgeCases() {
+        val a = BlockVector3(1, -1, 0)
+        val b = BlockVector3(-1, 1, 0)
+
+        // Negative components
+        assertEquals(BlockVector3(0, 0, 0), a + b)
+
+        // Zero components
+        val zero = BlockVector3(0, 0, 0)
+        assertEquals(a, a + zero)
+    }
 }
