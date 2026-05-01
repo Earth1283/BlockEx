@@ -1,3 +1,27 @@
+# Kotlin DSL API Completion Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Complete the Kotlin DSL API by adding all directional methods and branching support to `ChainBuilder`, and fix a bug in `PatternBuilder`.
+
+**Architecture:** 
+- `ChainBuilder` will have methods for `up`, `down`, `north`, `south`, `east`, `west`.
+- Each directional method will support `count: Int` and `range: IntRange`.
+- `branch` method will add a `BranchNode` to the chain.
+- `PatternBuilder` will delay building the AST until its own `build()` method is called.
+
+**Tech Stack:** Kotlin
+
+---
+
+### Task 1: Update BlockExDSL.kt
+
+**Files:**
+- Modify: `src/main/kotlin/io/github/Earth1283/blockEx/api/dsl/BlockExDSL.kt`
+
+- [ ] **Step 1: Add imports and fix PatternBuilder**
+
+```kotlin
 package io.github.Earth1283.blockEx.api.dsl
 
 import io.github.Earth1283.blockEx.api.BlockProvider
@@ -29,7 +53,12 @@ class PatternBuilder {
         return Pattern(root, useCompiled)
     }
 }
+// ...
+```
 
+- [ ] **Step 2: Add directional methods and branch to ChainBuilder**
+
+```kotlin
 class ChainBuilder(private val startMat: String) {
     private val steps = mutableListOf<(MatcherNode?) -> MatcherNode>()
     
@@ -73,9 +102,49 @@ class ChainBuilder(private val startMat: String) {
         return this
     }
 }
+```
 
-fun blockEx(block: PatternBuilder.() -> Unit): Pattern {
-    val builder = PatternBuilder()
-    builder.block()
-    return builder.build()
-}
+### Task 2: Update BlockExDSLTest.kt
+
+**Files:**
+- Modify: `src/test/kotlin/io/github/Earth1283/blockEx/api/dsl/BlockExDSLTest.kt`
+
+- [ ] **Step 1: Add test for branching**
+
+```kotlin
+    @Test
+    fun testBranchingDSL() {
+        val pattern = blockEx {
+            start("minecraft:stone")
+                .branch {
+                    up(1, "minecraft:glass")
+                }
+                .branch {
+                    down(1, "minecraft:glass")
+                }
+        }
+        
+        val ast = pattern.astRoot as StartNode
+        assertTrue(ast.next is io.github.Earth1283.blockEx.engine.ast.BranchNode)
+        val branch1 = ast.next as io.github.Earth1283.blockEx.engine.ast.BranchNode
+        assertTrue(branch1.branches[0] is io.github.Earth1283.blockEx.engine.ast.DirectionNode)
+        
+        assertTrue(branch1.next is io.github.Earth1283.blockEx.engine.ast.BranchNode)
+        val branch2 = branch1.next as io.github.Earth1283.blockEx.engine.ast.BranchNode
+        assertTrue(branch2.branches[0] is io.github.Earth1283.blockEx.engine.ast.DirectionNode)
+    }
+```
+
+### Task 3: Verification
+
+- [ ] **Step 1: Run tests**
+
+Run: `./gradlew test`
+Expected: ALL tests pass.
+
+### Task 4: Finalize
+
+- [ ] **Step 1: Commit and update TODO.md**
+
+Run: `git add . && git commit -m "feat: complete Kotlin DSL API and fix PatternBuilder bug"`
+Modify: `TODO.md` mark Task 6 as complete.

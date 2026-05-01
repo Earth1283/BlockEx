@@ -1,0 +1,30 @@
+# Kotlin DSL API Implementation
+
+- [x] Task 1: DSL Infrastructure and Start Node
+    - [x] Step 1: Write the failing test
+    - [x] Step 2: Run test to verify it fails
+    - [x] Step 3: Write minimal implementation
+    - [x] Step 4: Run test to verify it passes
+    - [x] Step 5: Commit
+- [ ] Task 2: Directional Steps (Up, Down, North, South, East, West)
+    - [ ] Step 1: Write the failing test
+    - [ ] Step 2: Run test to verify it fails
+    - [ ] Step 3: Write minimal implementation
+    - [ ] Step 4: Run test to verify it passes
+    - [ ] Step 5: Commit
+- [ ] Task 3: Branching Support
+    - [ ] Step 1: Write the failing test
+    - [ ] Step 2: Run test to verify it fails
+    - [ ] Step 3: Write minimal implementation
+    - [ ] Step 4: Run test to verify it passes
+    - [ ] Step 5: Commit
+- [ ] Task 4: Compiled Pattern Support
+    - [ ] Step 1: Write the failing test
+    - [ ] Step 2: Run test to verify it fails
+    - [ ] Step 3: Write minimal implementation
+    - [ ] Step 4: Run test to verify it passes
+    - [ ] Step 5: Commit
+- [ ] Task 5: Final Cleanup and TODO Update
+    - [ ] Step 1: Update TODO.md
+    - [ ] Step 2: Final Verification
+    - [ ] Step 3: Commit

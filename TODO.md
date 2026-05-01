@@ -5,6 +5,6 @@
 - [x] Task 3: World Abstraction for Testing
 - [x] Task 4: AST Nodes (State Machine)
 - [x] Task 5: Compiled Engine
-- [ ] Task 6: Kotlin DSL API
+- [x] Task 6: Kotlin DSL API
 - [ ] Task 7: Configuration File Parser
 - [ ] Task 8: Bukkit Integration
