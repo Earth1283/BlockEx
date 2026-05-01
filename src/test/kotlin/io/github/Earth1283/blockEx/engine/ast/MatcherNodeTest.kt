@@ -64,4 +64,27 @@ class MatcherNodeTest {
         mockProvider.setBlock(p2, "IRON")
         assertTrue(stoneNode.matches(mockProvider, p0))
     }
+
+    @Test
+    fun `BranchNode should require all branches to match`() {
+        val p0 = BlockVector3(0, 0, 0)
+        val pEast = BlockVector3(1, 0, 0)
+        val pUp = BlockVector3(0, 1, 0)
+        
+        mockProvider.setBlock(p0, "STONE")
+        mockProvider.setBlock(pEast, "GOLD")
+        mockProvider.setBlock(pUp, "DIAMOND")
+        
+        val branchEast = DirectionNode(io.github.Earth1283.blockEx.api.Direction.EAST, 1..1, "GOLD")
+        val branchUp = DirectionNode(io.github.Earth1283.blockEx.api.Direction.UP, 1..1, "DIAMOND")
+        
+        val branchNode = BranchNode(listOf(branchEast, branchUp))
+        val startNode = StartNode("STONE", branchNode)
+        
+        assertTrue(startNode.matches(mockProvider, p0))
+        
+        // One branch fails
+        mockProvider.setBlock(pUp, "DIRT")
+        assertFalse(startNode.matches(mockProvider, p0))
+    }
 }

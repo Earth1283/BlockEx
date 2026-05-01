@@ -49,3 +49,12 @@ class DirectionNode(
         return false
     }
 }
+
+class BranchNode(val branches: List<MatcherNode>, val next: MatcherNode? = null) : MatcherNode() {
+    override fun matches(provider: BlockProvider, currentPos: BlockVector3): Boolean {
+        for (branch in branches) {
+            if (!branch.matches(provider, currentPos)) return false
+        }
+        return next?.matches(provider, currentPos) ?: true
+    }
+}
