@@ -6,5 +6,5 @@
 - [x] Task 4: AST Nodes (State Machine)
 - [x] Task 5: Compiled Engine
 - [x] Task 6: Kotlin DSL API
-- [ ] Task 7: Configuration File Parser
-- [ ] Task 8: Bukkit Integration
+- [x] Task 7: Configuration File Parser
+- [x] Task 8: Bukkit Integration
