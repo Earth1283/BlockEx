@@ -51,6 +51,7 @@ class BlockExTokenizer(private val input: String) {
         while (pos < input.length && (input[pos].isLetterOrDigit() || input[pos] == '_' || input[pos] == ':')) {
             pos++
             col++
+            if (pos - start > 1024) throw ParserException("Identifier exceeds max length of 1024", line, col)
         }
         return input.substring(start, pos)
     }
@@ -64,7 +65,10 @@ class BlockExTokenizer(private val input: String) {
     private fun readNumber(): Token {
         val startCol = col
         val start = pos
-        while (pos < input.length && input[pos].isDigit()) { pos++; col++ }
+        while (pos < input.length && input[pos].isDigit()) { 
+            pos++; col++ 
+            if (pos - start > 128) throw ParserException("Number exceeds max length of 128", line, col)
+        }
         return Token(TokenType.NUMBER, input.substring(start, pos), line, startCol)
     }
 
@@ -73,7 +77,11 @@ class BlockExTokenizer(private val input: String) {
         pos++ // skip start quote
         col++
         val start = pos
-        while (pos < input.length && input[pos] != quote) { pos++; col++ }
+        while (pos < input.length && input[pos] != quote) { 
+            pos++; col++ 
+            if (pos - start > 4096) throw ParserException("String literal exceeds max length of 4096", line, col)
+        }
+        if (pos >= input.length) throw ParserException("Unterminated string literal", line, col)
         val value = input.substring(start, pos)
         pos++ // skip end quote
         col++

@@ -11,8 +11,11 @@ Features
 
 * **Directional Path DSL**: Define structures using an ergonomic Kotlin DSL or a simple text-based config.
 * **Dual-Engine Architecture**:
-    * **AST State Machine**: Supports flexible patterns with variable quantifiers (e.g., 1 to 5 blocks) and greedy backtracking.
+    * **NFA-based AST Engine**: Uses a non-deterministic finite automaton (NFA) worklist algorithm with memoization to guarantee linear time matching and prevent catastrophic backtracking.
     * **Compiled Engine**: Ultra-fast $O(1)$ lookup for rigid, static structures.
+* **Security & Stability**:
+    * **Backtracking Protection**: Immune to "Regex DoS" patterns in 3D space.
+    * **Input Validation**: Tokenizer safety limits prevent memory exhaustion from oversized configuration files.
 * **.blockex Configuration**: Server owners can define patterns and triggers in text files without touching code.
 * **Adventure Integration**: Rich, color-coded error reporting in the console with hoverable suggestions.
 * **Action Dispatcher**: Automatically execute commands or send messages when a structure is matched.

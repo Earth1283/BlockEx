@@ -8,8 +8,9 @@ BlockEx is a modern, high-performance engine for matching 3D block structures. W
 
 - **Directional DSL**: Define paths like `up(3).east(1).branch { ... }`.
 - **Dual Matching Engine**:
-  - **AST Engine**: For complex patterns with variable ranges (e.g., "3 to 5 stone blocks").
+  - **NFA AST Engine**: High-performance execution using NFA simulation with memoization to prevent catastrophic backtracking (no "Regex DoS").
   - **Compiled Engine**: Pre-calculated $O(1)$ relative coordinate maps for maximum performance on static shapes.
+- **Hardened Security**: Tokenizer limits protect against malicious or oversized configuration files.
 - **Easy Configuration**: Server owners can create `.blockex` files to add new structures without any coding.
 - **Interactive Errors**: Leveraging [Adventure](https://docs.advntr.dev/), the plugin provides clear, hoverable error messages in your console.
 - **Reactive Triggers**: Automatically check for patterns when blocks are placed, broken, or interacted with.

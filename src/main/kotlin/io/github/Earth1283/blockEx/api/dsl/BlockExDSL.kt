@@ -6,11 +6,17 @@ import io.github.Earth1283.blockEx.api.Direction
 import io.github.Earth1283.blockEx.engine.ast.*
 import io.github.Earth1283.blockEx.engine.compiled.CompiledPattern
 
+import io.github.Earth1283.blockEx.engine.WorklistEngine
+
 class Pattern(val astRoot: MatcherNode, val useCompiled: Boolean) {
     private val compiled by lazy { CompiledPattern.compile(astRoot) }
     
     fun matches(provider: BlockProvider, pos: BlockVector3): Boolean {
-        return if (useCompiled) compiled.matches(provider, pos) else astRoot.matches(provider, pos)
+        return if (useCompiled) {
+            compiled.matches(provider, pos)
+        } else {
+            WorklistEngine(provider).matches(astRoot, pos)
+        }
     }
 }
 

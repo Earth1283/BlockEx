@@ -1,9 +1,37 @@
 package io.github.Earth1283.blockEx.config
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 class BlockExTokenizerTest {
+    @Test
+    fun `should throw error on excessive identifier length`() {
+        val longIdentifier = "a".repeat(2000)
+        val tokenizer = BlockExTokenizer(longIdentifier)
+        assertThrows(ParserException::class.java) {
+            tokenizer.tokenize()
+        }
+    }
+
+    @Test
+    fun `should throw error on excessive string length`() {
+        val longString = "\"" + "a".repeat(5000) + "\""
+        val tokenizer = BlockExTokenizer(longString)
+        assertThrows(ParserException::class.java) {
+            tokenizer.tokenize()
+        }
+    }
+
+    @Test
+    fun `should throw error on unterminated string`() {
+        val unterminated = "\"hello"
+        val tokenizer = BlockExTokenizer(unterminated)
+        assertThrows(ParserException::class.java) {
+            tokenizer.tokenize()
+        }
+    }
+    
     @Test
     fun testTokenizeDirectives() {
         val input = "@useCompiled @trigger"

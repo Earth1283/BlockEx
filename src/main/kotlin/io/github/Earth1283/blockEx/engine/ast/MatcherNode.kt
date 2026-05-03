@@ -5,56 +5,22 @@ import io.github.Earth1283.blockEx.api.BlockVector3
 import io.github.Earth1283.blockEx.api.Direction
 
 sealed class MatcherNode {
-    abstract fun matches(provider: BlockProvider, currentPos: BlockVector3): Boolean
-    
-    protected fun matchesMaterial(expected: String, actual: String): Boolean {
-        if (expected == "*") return true
-        return expected.equals(actual, ignoreCase = true)
-    }
+    var next: MatcherNode? = null
 }
 
-class StartNode(val expectedMaterial: String, val next: MatcherNode? = null) : MatcherNode() {
-    override fun matches(provider: BlockProvider, currentPos: BlockVector3): Boolean {
-        if (!matchesMaterial(expectedMaterial, provider.getMaterialAt(currentPos))) return false
-        return next?.matches(provider, currentPos) ?: true
-    }
+class StartNode(val expectedMaterial: String, next: MatcherNode? = null) : MatcherNode() {
+    init { this.next = next }
 }
 
 class DirectionNode(
     val direction: Direction,
     val range: IntRange,
     val expectedMaterial: String,
-    val next: MatcherNode? = null
+    next: MatcherNode? = null
 ) : MatcherNode() {
-    override fun matches(provider: BlockProvider, currentPos: BlockVector3): Boolean {
-        for (dist in range.last downTo range.first) {
-            var valid = true
-            var testPos = currentPos
-            
-            for (i in 1..dist) {
-                testPos += direction.vector
-                if (!matchesMaterial(expectedMaterial, provider.getMaterialAt(testPos))) {
-                    valid = false
-                    break
-                }
-            }
-            
-            if (valid) {
-                val targetPos = currentPos + (direction.vector * dist)
-                if (next == null || next.matches(provider, targetPos)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
+    init { this.next = next }
 }
 
-class BranchNode(val branches: List<MatcherNode>, val next: MatcherNode? = null) : MatcherNode() {
-    override fun matches(provider: BlockProvider, currentPos: BlockVector3): Boolean {
-        for (branch in branches) {
-            if (!branch.matches(provider, currentPos)) return false
-        }
-        return next?.matches(provider, currentPos) ?: true
-    }
+class BranchNode(val branches: List<MatcherNode>, next: MatcherNode? = null) : MatcherNode() {
+    init { this.next = next }
 }
